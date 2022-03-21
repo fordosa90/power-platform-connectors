@@ -7,6 +7,7 @@ This is a repository for Microsoft Power Automate, Power Apps, and Azure Logic A
 - [Table of Contents](#table-of-contents)
 - [How to](#how-to)
 - [U.K. Government Check VAT](#uk-government-check-vat)
+- [WorldTimeAPI](#worldtimeapi)
 
 # How to
 
@@ -30,3 +31,9 @@ paconn create --api-prop [Path to apiProperties.json] --api-def [Path to apiDefi
 Service provided by GOV.UK allowing you to perform unverified and verified checks of UK VAT numbers and view additional details of the VAT registration such as name and address of business.
 
 [More details..](U.K.%20Government%20Check%20VAT/readme.md)
+
+# WorldTimeAPI
+
+WorldTimeAPI is a simple "microservice" which returns the local-time for a given timezone in both unixtime and ISO8601 format. Some additional information is provided, such as whether that timezone is currently in Daylight Savings Time, when DST starts and ends, the UTC offset, etc.
+
+[More details..](WorldTime/readme.md)
