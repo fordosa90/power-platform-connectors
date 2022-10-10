@@ -1,0 +1,49 @@
+{
+    "id": "e9b09e22-5415-42bc-aeb1-8638312e1a1d",
+    "brandColor": "#8C3900",
+    "connectionReferences": {
+        "shared_office365": {
+            "connection": {
+                "id": "test"
+            }
+        }
+    },
+    "connectorDisplayName": "Control",
+    "icon": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KIDxwYXRoIGQ9Im0wIDBoMzJ2MzJoLTMyeiIgZmlsbD0iIzhDMzkwMCIvPg0KIDxwYXRoIGQ9Im04IDEwaDE2djEyaC0xNnptMTUgMTF2LTEwaC0xNHYxMHptLTItOHY2aC0xMHYtNnptLTEgNXYtNGgtOHY0eiIgZmlsbD0iI2ZmZiIvPg0KPC9zdmc+DQo=",
+    "isTrigger": false,
+    "operationName": "Scope_-_Catch",
+    "operationDefinition": {
+        "type": "Scope",
+        "actions": {
+            "Send_an_email_(V2)": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                    "host": {
+                        "connectionName": "shared_office365",
+                        "operationId": "SendEmailV2",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                    },
+                    "parameters": {
+                        "emailMessage/To": "test@test.hu",
+                        "emailMessage/Subject": "[Independent Connector] Issue with a custom connector",
+                        "emailMessage/Body": "<p>Hey,<br>\n<br>\nThe scheduled daily test has been either failed or skipped.<br>\nPlease check the flow run history for more details.<br>\n<br>\n &nbsp;- Workflow: @{workflow().name}<br>\n &nbsp;- Time: @{utcNow('yyyy-MM-dd HH:mm:ss')}<br>\n &nbsp;- &lt;a href=https://flow.microsoft.com/manage/environments/@{workflow()['tags']['environmentName']}/flows/@{workflow()['name']}/details&gt;Open flow @{workflow()['tags']['flowDisplayName']}&lt;/a&gt;<br>\n<br>\nCheers,</p>"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                },
+                "runAfter": {},
+                "metadata": {
+                    "operationMetadataId": "8cc917c2-4be7-4f52-aea9-ebccc0a1c319"
+                }
+            }
+        },
+        "runAfter": {
+            "Scope_-_Try": [
+                "Failed",
+                "TimedOut"
+            ]
+        },
+        "metadata": {
+            "operationMetadataId": "f5a52bab-1e5d-428c-8db4-e4d385f1bf10"
+        }
+    }
+}

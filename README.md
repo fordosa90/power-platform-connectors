@@ -6,12 +6,17 @@ This is a repository for Microsoft Power Automate, Power Apps, and Azure Logic A
 - [power-platform-connectors](#power-platform-connectors)
 - [Table of Contents](#table-of-contents)
 - [How to](#how-to)
+  - [Install Custom Connector](#install-custom-connector)
+  - [Add custom uality gate](#add-custom-uality-gate)
 - [U.K. Government Check VAT](#uk-government-check-vat)
 - [WorldTimeAPI](#worldtimeapi)
 
 # How to
 
 Within this repo, there are various MSFCT custom connectors found.
+
+## Install Custom Connector
+
 They are stored through their JSON files, meaning they can't simply be installed as a PowerApps solution ZIP in their current state.
 nstead, use the PACONN command line tool:
 
@@ -25,6 +30,13 @@ paconn login
 paconn create --api-prop [Path to apiProperties.json] --api-def [Path to apiDefinition.swagger.json] --icon [Path to icon.png]
 ```
 
+## Add custom uality gate
+
+To make sure, your Custom Connector works as intended, you could create a scheduled flow, running every day (or week) once and calling actions from the connector, tha you want to test against regression.
+
+When set up, simply copy and paste the included `_FlowFailure_Template.json` into your flow, creating a Catch block, that will send an email to you with all details about the failure.
+
+After Copy-Paste, make sure that the "Run After" conition and the outlook connection reference are set correctly for the full Scope.
 
 # U.K. Government Check VAT
 
