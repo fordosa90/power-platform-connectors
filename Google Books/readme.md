@@ -26,3 +26,9 @@ Google Books respects copyright, contract, and other legal restrictions associat
 ### Private bookshelves
 
 Current implementation of the custom connector only allows searching through the public volumes and information, not enabling the private "MyLibrary" features of Google Books or access to user data. 
+
+### Limitations of the API itself
+
+There are additional limitations applicable, but they are not limitations of the Custom Connector itself, rather of the underlying service. For example, maximum results allowed to be returned in a search query are 40.
+
+Read more on [LINK](http://developers.google.com/books/docs/v1/using)

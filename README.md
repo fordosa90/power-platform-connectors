@@ -6,14 +6,34 @@ This is a repository for Microsoft Power Automate, Power Apps, and Azure Logic A
 - [power-platform-connectors](#power-platform-connectors)
 - [Table of Contents](#table-of-contents)
 - [How to](#how-to)
+  - [Create new Custom Connector](#create-new-custom-connector)
   - [Install Custom Connector](#install-custom-connector)
-  - [Add custom uality gate](#add-custom-uality-gate)
+  - [Add custom Quality gate](#add-custom-quality-gate)
+- [Google Books](#google-books)
 - [U.K. Government Check VAT](#uk-government-check-vat)
 - [WorldTimeAPI](#worldtimeapi)
 
 # How to
 
 Within this repo, there are various MSFCT custom connectors found.
+
+## Create new Custom Connector
+
+There are multiple ways to create a new custom connector, below are the steps for the most manual process.
+
+1. Navigate to flow.microsoft.com
+2. Create a new solution and a new Custom Connector
+3. Define all properties (details, security, operations) and save
+4. Test the operations by first creating a connection
+5. Download the connector definition as follows:
+
+```
+pip install paconn
+
+paconn login
+
+paconn download --env [Environment ID] --dest [Destination directory]
+```
 
 ## Install Custom Connector
 
@@ -30,13 +50,19 @@ paconn login
 paconn create --api-prop [Path to apiProperties.json] --api-def [Path to apiDefinition.swagger.json] --icon [Path to icon.png]
 ```
 
-## Add custom uality gate
+## Add custom Quality gate
 
 To make sure, your Custom Connector works as intended, you could create a scheduled flow, running every day (or week) once and calling actions from the connector, tha you want to test against regression.
 
 When set up, simply copy and paste the included `_FlowFailure_Template.json` into your flow, creating a Catch block, that will send an email to you with all details about the failure.
 
 After Copy-Paste, make sure that the "Run After" conition and the outlook connection reference are set correctly for the full Scope.
+
+# Google Books
+
+Google Books provides and open and public library enabling searching information of various volumes while also providing a way to search within publications.
+
+[More details..](Google%20Books/readme.md)
 
 # U.K. Government Check VAT
 
