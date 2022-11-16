@@ -32,3 +32,7 @@ Current implementation of the custom connector only allows searching through the
 There are additional limitations applicable, but they are not limitations of the Custom Connector itself, rather of the underlying service. For example, maximum results allowed to be returned in a search query are 40.
 
 Read more on [LINK](http://developers.google.com/books/docs/v1/using)
+
+## Dependencies
+
+Official, up to date logo is available at: [LINK](https://commons.wikimedia.org/wiki/File:Google_Play_Books_icon_(2016).svg)
