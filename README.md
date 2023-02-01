@@ -1,14 +1,20 @@
 # power-platform-connectors
 This is a repository for Microsoft Power Automate, Power Apps, and Azure Logic Apps connectors
 
+# NOT PUSHING NEW CONNECTORS HERE AS SUBMITTING THEM AS INDEPENDENT PUBLISHER TO MSFT
+
+[https://github.com/microsoft/PowerPlatformConnectors/tree/dev/independent-publisher-connectors](https://github.com/microsoft/PowerPlatformConnectors/tree/dev/independent-publisher-connectors)
+
 # Table of Contents
 
 - [power-platform-connectors](#power-platform-connectors)
+- [NOT PUSHING NEW CONNECTORS HERE AS SUBMITTING THEM AS INDEPENDENT PUBLISHER TO MSFT](#not-pushing-new-connectors-here-as-submitting-them-as-independent-publisher-to-msft)
 - [Table of Contents](#table-of-contents)
 - [How to](#how-to)
   - [Create new Custom Connector](#create-new-custom-connector)
   - [Install Custom Connector](#install-custom-connector)
   - [Add custom Quality gate](#add-custom-quality-gate)
+  - [Install test flows](#install-test-flows)
 - [Google Books](#google-books)
 - [U.K. Government Check VAT](#uk-government-check-vat)
 - [WorldTimeAPI](#worldtimeapi)
@@ -47,7 +53,7 @@ pip install paconn
 
 paconn login
 
-paconn create --api-prop [Path to apiProperties.json] --api-def [Path to apiDefinition.swagger.json] --icon [Path to icon.png]
+paconn create --env [Environment ID] --api-prop [Path to apiProperties.json] --api-def [Path to apiDefinition.swagger.json] --icon [Path to icon.png]
 ```
 
 ## Add custom Quality gate
@@ -57,6 +63,21 @@ To make sure, your Custom Connector works as intended, you could create a schedu
 When set up, simply copy and paste the included `_FlowFailure_Template.json` into your flow, creating a Catch block, that will send an email to you with all details about the failure.
 
 After Copy-Paste, make sure that the "Run After" conition and the outlook connection reference are set correctly for the full Scope.
+
+## Install test flows
+
+There are test flows implemented for my custom connectors already. They:
+  - run daily
+  - execute happy path for all actions
+  - send me email when failure happens
+
+Contents are found in `src` folder, and can be installed as follows:
+
+```
+pac solution pack --zipfile [ZIP Path] --folder [Folder Path] --packagetype 'Both'
+
+pac solution unpack --zipfile [ZIP Path] --folder [Folder Path] --packagetype 'Both'
+```
 
 # Google Books
 

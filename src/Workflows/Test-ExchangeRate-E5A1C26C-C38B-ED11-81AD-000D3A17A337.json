@@ -1,0 +1,162 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_office365_1": {
+        "runtimeSource": "embedded",
+        "connection": {},
+        "api": {
+          "name": "shared_office365"
+        }
+      },
+      "shared_exchangerateip": {
+        "runtimeSource": "embedded",
+        "connection": {},
+        "api": {
+          "name": "shared_exchangerateip"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": {
+            "frequency": "Day",
+            "interval": 1,
+            "startTime": "2023-01-02T23:00:00Z"
+          },
+          "metadata": {
+            "operationMetadataId": "b1d6086f-6850-48a2-bfe0-888f44ca426c"
+          },
+          "type": "Recurrence"
+        }
+      },
+      "actions": {
+        "Scope_-_Try": {
+          "actions": {
+            "List_Currencies": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c661cba9-1829-4295-8ba7-6fa08911c8e8"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_exchangerateip",
+                  "operationId": "ListCurrencies",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_exchangerateip"
+                },
+                "parameters": {},
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Get_Exchange_Rates": {
+              "runAfter": {
+                "List_Currencies": [
+                  "Succeeded",
+                  "TimedOut",
+                  "Skipped",
+                  "Failed"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "95cff3de-2368-4365-9f8c-85421b26a610"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_exchangerateip",
+                  "operationId": "GetExchangeRates",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_exchangerateip"
+                },
+                "parameters": {
+                  "basecurrency": "USD"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Get_Exchange_Rate": {
+              "runAfter": {
+                "Get_Exchange_Rates": [
+                  "Succeeded",
+                  "Failed",
+                  "Skipped",
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "455969cc-caca-4343-bc2f-3a93ceaebaa3"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_exchangerateip",
+                  "operationId": "GetExchangeRate",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_exchangerateip"
+                },
+                "parameters": {
+                  "baseCurrency": "USD",
+                  "targetCurrency": "eur"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "ad5a6821-2fd3-4828-8579-34790b7915a5"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_Catch": {
+          "actions": {
+            "Send_an_email_(V2)": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "8cc917c2-4be7-4f52-aea9-ebccc0a1c319"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_office365_1",
+                  "operationId": "SendEmailV2",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                },
+                "parameters": {
+                  "emailMessage/To": "test",
+                  "emailMessage/Subject": "[Independent Connector] Issue with a custom connector",
+                  "emailMessage/Body": "<p>Hey,<br>\n<br>\nThe scheduled daily test has been either failed or skipped.<br>\nPlease check the flow run history for more details.<br>\n<br>\n- &nbsp;Flow: @{workflow()['tags']['flowDisplayName']}<br>\n&nbsp;- Workflow: @{workflow().name}<br>\n&nbsp;- Time: @{utcNow('yyyy-MM-dd HH:mm:ss')}<br>\n&nbsp;- &lt;a href=https://flow.microsoft.com/manage/environments/@{workflow()['tags']['environmentName']}/flows/@{workflow()['name']}/details&gt;Open flow @{workflow()['tags']['flowDisplayName']}&lt;/a&gt;<br>\n<br>\nCheers,</p>"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_Try": [
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f5a52bab-1e5d-428c-8db4-e4d385f1bf10"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
