@@ -15,6 +15,7 @@ This is a repository for Microsoft Power Automate, Power Apps, and Azure Logic A
   - [Install Custom Connector](#install-custom-connector)
   - [Add custom Quality gate](#add-custom-quality-gate)
   - [Install test flows](#install-test-flows)
+  - [Create canvas from Connector](#create-canvas-from-connector)
 - [Google Books](#google-books)
 - [U.K. Government Check VAT](#uk-government-check-vat)
 - [WorldTimeAPI](#worldtimeapi)
@@ -77,6 +78,19 @@ Contents are found in `src` folder, and can be installed as follows:
 pac solution pack --zipfile [ZIP Path] --folder [Folder Path] --packagetype 'Both'
 
 pac solution unpack --zipfile [ZIP Path] --folder [Folder Path] --packagetype 'Both'
+```
+
+## Create canvas from Connector
+
+In case you have a custom connector - not native - you can have an easy headstart to build a canvas app using it: [Documentation](https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/canvas#pac-canvas-create)
+
+```
+pac auth create 
+pac auth list
+pac auth update --index {index} --name {instancename} --environment {instanceID}
+pac auth select --index {index}
+cd {folder path to drop msApp}
+pac canvas create --msapp {HelloWorld.msapp} --connector-display-name {connectorName}
 ```
 
 # Google Books
